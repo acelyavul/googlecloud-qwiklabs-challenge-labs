@@ -2,8 +2,9 @@ Lab Name: Create and Manage Cloud Resources: Challenge Lab (GSP313)
 
 ```sh
 # Activate Cloud Shell and set default variables
-VM_NAME=nucleus-vm
+INSTANCE_NAME=nucleus-jumphost-293
 CLUSTER_NAME=nucleus-webserver
+FIREWALL_RULE=permit-tcp-rule-865
 REGION=us-east1
 ZONE=us-east1-b
 
@@ -14,7 +15,7 @@ gcloud config set compute/zone $ZONE
 Task 1: Create a project jumphost instance
 
 ```sh
-gcloud compute instances create $VM_NAME \
+gcloud compute instances create $INSTANCE_NAME \
           --machine-type e2-micro  \
           --image-family debian-11  \
           --image-project debian-cloud
@@ -67,7 +68,7 @@ gcloud compute instance-groups managed create web-server-group \
 gcloud compute instances list
 
 # Creating a firewall rule to allow traffic (80/tcp)
-gcloud compute firewall-rules create web-server-firewall \
+gcloud compute firewall-rules create $FIREWALL_RULE \
           --allow tcp:80
 
 gcloud compute forwarding-rules create nginx-lb \
