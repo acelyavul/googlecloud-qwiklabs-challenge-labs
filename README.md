@@ -1,1 +1,1 @@
-# Challenge-lab
+# Google Cloud Skills Boost - Challenge Labs
