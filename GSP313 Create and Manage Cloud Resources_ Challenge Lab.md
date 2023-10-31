@@ -12,21 +12,17 @@ gcloud config set compute/zone $ZONE
 ```
 
 Task 1: Create a project jumphost instance
-Run command:
 
 ```sh
-# Create a project Jumphost instance
 gcloud compute instances create $VM_NAME \
           --machine-type e2-micro  \
           --image-family debian-11  \
           --image-project debian-cloud
 ```
-          
+
 Task 2: Create a Kubernetes service cluster
-Run command:
 
 ```sh
-# Create a Kubernetes service cluster
 gcloud container clusters create $CLUSTER_NAME
 
 gcloud container clusters get-credentials $CLUSTER_NAME
@@ -42,9 +38,9 @@ kubectl get service
 ```
 
 Task 3: Set up an HTTP load balancer
-Run command:
 
 ```sh
+# Run code to configure the web server
 cat << EOF > startup.sh
 #! /bin/bash
 apt-get update
@@ -93,7 +89,7 @@ gcloud compute backend-services create web-server-backend \
           --protocol HTTP \
           --http-health-checks http-basic-check \
           --global
-          
+
 gcloud compute backend-services add-backend web-server-backend \
           --instance-group web-server-group \
           --instance-group-region $REGION \
@@ -103,7 +99,7 @@ gcloud compute backend-services add-backend web-server-backend \
 # Creating a URL map and target HTTP proxy to route requests to your URL map
 gcloud compute url-maps create web-server-map \
           --default-service web-server-backend
-          
+
 gcloud compute target-http-proxies create http-lb-proxy \
           --url-map web-server-map
 
@@ -112,6 +108,6 @@ gcloud compute forwarding-rules create http-content-rule \
         --global \
         --target-http-proxy http-lb-proxy \
         --ports 80
-        
+
 gcloud compute forwarding-rules list
 ```
