@@ -93,7 +93,6 @@ gcloud compute backend-services create web-server-backend \
 
 gcloud compute backend-services add-backend web-server-backend \
           --instance-group web-server-group \
-          --instance-group-region $REGION \
           --global
 
 
